@@ -1,5 +1,5 @@
 # 🦠 CoronaCZ
 
-Jednoduchá aplikace zobrazující nárůst případů a počet testů v průběhu dnů.
+Very simple app that shows the growth of all cases and number of tests over the days.
 
-Aplikace využívá [otevřené datové sady](https://onemocneni-aktualne.mzcr.cz/api/v1/covid-19).
+App uses [open data sets](https://onemocneni-aktualne.mzcr.cz/api/v1/covid-19).
