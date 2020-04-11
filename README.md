@@ -6,7 +6,7 @@ It's very useful example to show some functionalities that are available to iOS 
 
 - [x] Dark mode
 - [x] Dynamic AppIcon
-- [ ] Apple Watch extensions
+- [ ] watchOS app
 - [ ] Today widget
 
 # Source
