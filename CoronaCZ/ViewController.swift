@@ -96,9 +96,12 @@ final class ViewController: UIViewController {
         let task = URLSession.shared.dataTask(with: URL(string: path)!) { [weak self] data, response, error in
             print("⬇️ \(path)")
             if let error = error {
-                let alert = UIAlertController(title: "Chyba", message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Zavřít", style: .cancel))
-                self?.present(alert, animated: true)
+                let alert = UIAlertController(title: NSLocalizedString("error.title", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("error.button.cancel", comment: ""), style: .cancel))
+
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
+                }
                 return
             }
 
