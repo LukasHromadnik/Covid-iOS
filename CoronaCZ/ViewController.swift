@@ -30,6 +30,8 @@ final class ViewController: UIViewController {
         refreshBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshBarButtonTapped))
         navigationItem.rightBarButtonItem = refreshBarButtonItem
 
+        setDarkAppIconIfPossible()
+
         refreshData()
     }
 
@@ -112,5 +114,22 @@ final class ViewController: UIViewController {
         }
 
         chart.updateDataEntries(dataEntries: entries, animated: false)
+    }
+
+    private func setDarkAppIconIfPossible() {
+        // Without the delay the alternate icon is not working
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            let hasDarkMode = self?.traitCollection.userInterfaceStyle == .dark
+            let hasDefaultIcon = UIApplication.shared.alternateIconName == nil
+
+            switch (hasDarkMode, hasDefaultIcon) {
+            case (true, true):
+                UIApplication.shared.setAlternateIconName("AppIcon-DarkMode")
+            case (false, false):
+                UIApplication.shared.setAlternateIconName(nil)
+            default:
+                break
+            }
+        }
     }
 }
