@@ -56,10 +56,12 @@ final class ViewController: UIViewController {
     // MARK: - Private methods
 
     private func setState(hasData: Bool) {
-        casesBarChartLoadingLabel.isHidden = hasData
-        casesBarChart.isHidden = hasData == false
-        testsBarChartLoadingLabel.isHidden = hasData
-        testsBarChart.isHidden = hasData == false
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.casesBarChartLoadingLabel.isHidden = hasData
+            self?.casesBarChart.isHidden = hasData == false
+            self?.testsBarChartLoadingLabel.isHidden = hasData
+            self?.testsBarChart.isHidden = hasData == false
+        })
     }
 
     private func refreshData() {
