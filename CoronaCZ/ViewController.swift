@@ -6,6 +6,8 @@
 //  Copyright © 2020 Lukáš Hromadník. All rights reserved.
 //
 
+private let kLastUpdateKey = "last_update"
+
 import UIKit
 
 final class ViewController: UIViewController {
@@ -30,7 +32,8 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = NSLocalizedString("title", comment: "")
+        setupTitleView()
+
         refreshBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshBarButtonTapped))
         navigationItem.rightBarButtonItem = refreshBarButtonItem
 
@@ -54,6 +57,30 @@ final class ViewController: UIViewController {
     }
 
     // MARK: - Private methods
+
+    private func setupTitleView() {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("ddMM HHmm")
+
+        let lastDate = UserDefaults.standard.value(forKey: kLastUpdateKey) as? Date
+        let lastDateString = lastDate.map(formatter.string(from:)) ?? NSLocalizedString("last_update.never", comment: "")
+
+        let titleLabel = UILabel()
+        titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.textAlignment = .center
+        titleLabel.text = NSLocalizedString("title", comment: "")
+
+        let updateLabel = UILabel()
+        updateLabel.font = .preferredFont(forTextStyle: .footnote)
+        updateLabel.textAlignment = .center
+        updateLabel.text = String(format: NSLocalizedString("last_update.description", comment: ""), lastDateString)
+
+        let titleView = UIStackView(arrangedSubviews: [titleLabel, updateLabel])
+        titleView.axis = .vertical
+        titleView.sizeToFit()
+
+        navigationItem.titleView = titleView
+    }
 
     private func setState(hasData: Bool) {
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
@@ -90,6 +117,7 @@ final class ViewController: UIViewController {
         group.notify(queue: .main) { [weak self] in
             self?.setState(hasData: true)
             self?.navigationItem.rightBarButtonItem = self?.refreshBarButtonItem
+            self?.updateLastUpdate()
         }
     }
 
@@ -150,5 +178,10 @@ final class ViewController: UIViewController {
                 break
             }
         }
+    }
+
+    private func updateLastUpdate() {
+        UserDefaults.standard.set(Date(), forKey: kLastUpdateKey)
+        setupTitleView()
     }
 }

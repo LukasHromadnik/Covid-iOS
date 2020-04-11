@@ -14,3 +14,7 @@
 
 "error.title" = "Error";
 "error.button.cancel" = "Close";
+
+"last_update.description" = "Last update: %@";
+"last_update.never" = "never";
+

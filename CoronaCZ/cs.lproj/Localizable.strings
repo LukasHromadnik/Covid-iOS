@@ -14,3 +14,6 @@
 
 "error.title" = "Chyba";
 "error.button.cancel" = "Zavřít";
+
+"last_update.description" = "Poslední aktualizace: %@";
+"last_update.never" = "nikdy";
