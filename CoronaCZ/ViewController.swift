@@ -8,78 +8,16 @@
 
 import UIKit
 
-final class ViewControllerView: UIView {
-    weak var casesBarChart: BasicBarChart!
-    weak var testsBarChart: BasicBarChart!
-
-    // MARK: - Initialization
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setup()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setup() {
-        backgroundColor = .systemBackground
-
-        let casesTitleLabel = UILabel()
-        casesTitleLabel.text = "Případy"
-        casesTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        addSubview(casesTitleLabel)
-        casesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let casesBarChart = BasicBarChart()
-        addSubview(casesBarChart)
-        casesBarChart.translatesAutoresizingMaskIntoConstraints = false
-        self.casesBarChart = casesBarChart
-
-        let testsTitleLabel = UILabel()
-        testsTitleLabel.text = "Testy"
-        testsTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        addSubview(testsTitleLabel)
-        testsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let testsBarChart = BasicBarChart()
-        addSubview(testsBarChart)
-        testsBarChart.translatesAutoresizingMaskIntoConstraints = false
-        self.testsBarChart = testsBarChart
-
-        NSLayoutConstraint.activate([
-            casesTitleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            casesTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            casesTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
-            casesBarChart.topAnchor.constraint(equalTo: casesTitleLabel.bottomAnchor),
-            casesBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
-            casesBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            testsTitleLabel.topAnchor.constraint(equalTo: casesBarChart.bottomAnchor, constant: 8),
-            testsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            testsTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-
-            testsBarChart.topAnchor.constraint(equalTo: testsTitleLabel.bottomAnchor),
-            testsBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
-            testsBarChart.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            testsBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
-            testsBarChart.heightAnchor.constraint(equalTo: casesBarChart.heightAnchor)
-        ])
-    }
-}
-
 final class ViewController: UIViewController {
     private weak var casesBarChart: BasicBarChart!
     private weak var testsBarChart: BasicBarChart!
+
+    private var refreshBarButtonItem: UIBarButtonItem!
     
     // MARK: - Lifecycle
 
     override func loadView() {
-        let view = ViewControllerView()
+        let view = MainView()
         casesBarChart = view.casesBarChart
         testsBarChart = view.testsBarChart
         self.view = view
@@ -88,8 +26,9 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Koronavirus"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshBarButtonTapped))
+        navigationItem.title = NSLocalizedString("title", comment: "")
+        refreshBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshBarButtonTapped))
+        navigationItem.rightBarButtonItem = refreshBarButtonItem
 
         refreshData()
     }
@@ -98,26 +37,41 @@ final class ViewController: UIViewController {
 
     @objc
     private func refreshBarButtonTapped(_ sender: UIBarButtonItem) {
+        let loadingView = UIActivityIndicatorView(style: .medium)
+        loadingView.sizeToFit()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingView)
+        loadingView.startAnimating()
+
         refreshData()
     }
 
     // MARK: - Private methods
 
     private func refreshData() {
+        let group = DispatchGroup()
+
         let testsPath = "https://onemocneni-aktualne.mzcr.cz/api/v1/covid-19/testy.min.json"
+        group.enter()
         fetch(path: testsPath, type: TestsContainer.self) { [weak self] testsContainer in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.show(testsContainer.data, in: self.testsBarChart)
+                group.leave()
             }
         }
 
         let casesPath = "https://onemocneni-aktualne.mzcr.cz/api/v1/covid-19/nakaza.min.json"
+        group.enter()
         fetch(path: casesPath, type: [Case].self) { [weak self] cases in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.show(cases, in: self.casesBarChart)
+                group.leave()
             }
+        }
+
+        group.notify(queue: .main) { [weak self] in
+            self?.navigationItem.rightBarButtonItem = self?.refreshBarButtonItem
         }
     }
 

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A34B9FBA2441AF6000203F89 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34B9FB92441AF6000203F89 /* Test.swift */; };
+		A34DB28A2441BB3200ED13A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DB2892441BB3200ED13A0 /* MainView.swift */; };
+		A34DB2912441BEF500ED13A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A34DB2932441BEF500ED13A0 /* Localizable.strings */; };
 		A3F062612441A85A0040105D /* Case.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F062602441A85A0040105D /* Case.swift */; };
 		D798EC9C229404BF001276C0 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798EC9B229404BF001276C0 /* UIBezierPathExtension.swift */; };
 		D798EC9E229404E6001276C0 /* CALayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798EC9D229404E6001276C0 /* CALayerExtension.swift */; };
@@ -28,6 +30,10 @@
 
 /* Begin PBXFileReference section */
 		A34B9FB92441AF6000203F89 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		A34DB2892441BB3200ED13A0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A34DB2902441BE2200ED13A0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		A34DB2922441BEF500ED13A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A34DB2942441BF0200ED13A0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A3F062602441A85A0040105D /* Case.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Case.swift; sourceTree = "<group>"; };
 		D798EC982293F5FA001276C0 /* BeautifulBarChartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeautifulBarChartPresenter.swift; sourceTree = "<group>"; };
 		D798EC9B229404BF001276C0 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
@@ -123,7 +129,9 @@
 				A34B9FBC2441B9DD00203F89 /* Models */,
 				D7E538741F483B5D00D14995 /* AppDelegate.swift */,
 				D7E538761F483B5D00D14995 /* ViewController.swift */,
+				A34DB2892441BB3200ED13A0 /* MainView.swift */,
 				D7E5387B1F483B5D00D14995 /* Assets.xcassets */,
+				A34DB2932441BEF500ED13A0 /* Localizable.strings */,
 				D7E5387D1F483B5D00D14995 /* LaunchScreen.storyboard */,
 				D7E538801F483B5D00D14995 /* Info.plist */,
 			);
@@ -184,6 +192,7 @@
 			knownRegions = (
 				en,
 				Base,
+				cs,
 			);
 			mainGroup = D7E538681F483B5D00D14995;
 			productRefGroup = D7E538721F483B5D00D14995 /* Products */;
@@ -201,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7E5387F1F483B5D00D14995 /* LaunchScreen.storyboard in Resources */,
+				A34DB2912441BEF500ED13A0 /* Localizable.strings in Resources */,
 				D7E5387C1F483B5D00D14995 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +231,7 @@
 				D798ECAA22957871001276C0 /* BasicBarChartPresenter.swift in Sources */,
 				D7E538751F483B5D00D14995 /* AppDelegate.swift in Sources */,
 				D798ECAB22957871001276C0 /* BasicBarEntry.swift in Sources */,
+				A34DB28A2441BB3200ED13A0 /* MainView.swift in Sources */,
 				D798EC9C229404BF001276C0 /* UIBezierPathExtension.swift in Sources */,
 				D798ECA922957871001276C0 /* BasicBarChart.swift in Sources */,
 				D798ECAE2295788F001276C0 /* BeautifulBarEntry.swift in Sources */,
@@ -233,10 +244,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		A34DB2932441BEF500ED13A0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A34DB2922441BEF500ED13A0 /* en */,
+				A34DB2942441BF0200ED13A0 /* cs */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		D7E5387D1F483B5D00D14995 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				D7E5387E1F483B5D00D14995 /* Base */,
+				A34DB2902441BE2200ED13A0 /* cs */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
