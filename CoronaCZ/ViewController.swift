@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  BarChart
+//  CoronaCZ
 //
-//  Created by Nguyen Vu Nhat Minh on 19/8/17.
-//  Copyright © 2017 Nguyen Vu Nhat Minh. All rights reserved.
+//  Created by Lukáš Hromadník on 11/04/2020.
+//  Copyright © 2020 Lukáš Hromadník. All rights reserved.
 //
 
 import UIKit

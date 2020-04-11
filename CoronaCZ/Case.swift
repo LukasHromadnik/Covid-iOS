@@ -1,9 +1,9 @@
 //
 //  Case.swift
-//  BarChart
+//  CoronaCZ
 //
 //  Created by Lukáš Hromadník on 11/04/2020.
-//  Copyright © 2020 Nguyen Vu Nhat Minh. All rights reserved.
+//  Copyright © 2020 Lukáš Hromadník. All rights reserved.
 //
 
 import Foundation

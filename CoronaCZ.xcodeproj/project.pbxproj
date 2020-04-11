@@ -168,7 +168,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "Nguyen Vu Nhat Minh";
+				ORGANIZATIONNAME = "Lukáš Hromadník";
 				TargetAttributes = {
 					D7E538701F483B5D00D14995 = {
 						CreatedOnToolsVersion = 8.3.3;
