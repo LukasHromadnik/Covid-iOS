@@ -3,14 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		A34D29A22441DEBE007A4988 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34D29A12441DEBE007A4988 /* NotificationCenter.framework */; };
 		A34D29A52441DEBE007A4988 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34D29A42441DEBE007A4988 /* TodayViewController.swift */; };
 		A34D29A82441DEBE007A4988 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A34D29A62441DEBE007A4988 /* MainInterface.storyboard */; };
-		A34D29AC2441DEBE007A4988 /* Today Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A34D299F2441DEBE007A4988 /* Today Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A34D29AC2441DEBE007A4988 /* Today Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A34D299F2441DEBE007A4988 /* Today Extension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A34DB28A2441BB3200ED13A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DB2892441BB3200ED13A0 /* MainView.swift */; };
 		A34DB2912441BEF500ED13A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A34DB2932441BEF500ED13A0 /* Localizable.strings */; };
 		A34DB2A32441D20900ED13A0 /* BasicBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34DB2A02441D20900ED13A0 /* BasicBarChart.swift */; };
@@ -83,6 +83,7 @@
 		A34DB2B82441D24A00ED13A0 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		A34DB2BC2441D26900ED13A0 /* AppIcon-DarkMode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-DarkMode@2x.png"; sourceTree = "<group>"; };
 		A34DB2BD2441D26900ED13A0 /* AppIcon-DarkMode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-DarkMode@3x.png"; sourceTree = "<group>"; };
+		A3E558492441EA48007A0885 /* CoronaCZ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoronaCZ.entitlements; sourceTree = "<group>"; };
 		D7E538711F483B5D00D14995 /* CoronaCZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoronaCZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7E538741F483B5D00D14995 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7E538761F483B5D00D14995 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 		D7E538731F483B5D00D14995 /* CoronaCZ */ = {
 			isa = PBXGroup;
 			children = (
+				A3E558492441EA48007A0885 /* CoronaCZ.entitlements */,
 				A34DB2BB2441D25A00ED13A0 /* DarkModeIcons */,
 				A34DB29C2441D1D700ED13A0 /* BarChart */,
 				A34DB2B62441D23900ED13A0 /* Models */,
@@ -365,6 +367,7 @@
 /* Begin PBXTargetDependency section */
 		A34D29AB2441DEBE007A4988 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = A34D299E2441DEBE007A4988 /* Today Extension */;
 			targetProxy = A34D29AA2441DEBE007A4988 /* PBXContainerItemProxy */;
 		};
@@ -411,12 +414,17 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = cz.lukashromadnik.coronacz.dev.TodayExtension;
 				PRODUCT_NAME = "Today Extension";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -433,11 +441,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = TodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = cz.lukashromadnik.coronacz.dev.TodayExtension;
 				PRODUCT_NAME = "Today Extension";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -550,7 +563,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -561,15 +575,20 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CoronaCZ/CoronaCZ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8U76WWE65;
 				INFOPLIST_FILE = CoronaCZ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cz.lukashromadnik.coronacz.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -579,15 +598,20 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CoronaCZ/CoronaCZ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8U76WWE65;
 				INFOPLIST_FILE = CoronaCZ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cz.lukashromadnik.coronacz.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
