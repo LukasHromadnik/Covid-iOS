@@ -10,3 +10,4 @@
 
 "chart.cases.title" = "Případy";
 "chart.tests.title" = "Testy";
+"chart.loading" = "Načítání...";

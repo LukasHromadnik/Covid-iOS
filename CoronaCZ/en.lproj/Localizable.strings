@@ -10,3 +10,4 @@
 
 "chart.cases.title" = "Cases";
 "chart.tests.title" = "Tests";
+"chart.loading" = "Loading...";

@@ -9,7 +9,9 @@
 import UIKit
 
 final class MainView: UIView {
+    weak var casesBarChartLoadingLabel: UILabel!
     weak var casesBarChart: BasicBarChart!
+    weak var testsBarChartLoadingLabel: UILabel!
     weak var testsBarChart: BasicBarChart!
 
     // MARK: - Initialization
@@ -39,11 +41,25 @@ final class MainView: UIView {
         casesBarChart.translatesAutoresizingMaskIntoConstraints = false
         self.casesBarChart = casesBarChart
 
+        let casesBarChartLoadingLabel = UILabel()
+        casesBarChartLoadingLabel.text = NSLocalizedString("chart.loading", comment: "")
+        casesBarChartLoadingLabel.textAlignment = .center
+        addSubview(casesBarChartLoadingLabel)
+        casesBarChartLoadingLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.casesBarChartLoadingLabel = casesBarChartLoadingLabel
+
         let testsTitleLabel = UILabel()
         testsTitleLabel.text = NSLocalizedString("chart.tests.title", comment: "")
         testsTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         addSubview(testsTitleLabel)
         testsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let testsBarChartLoadingLabel = UILabel()
+        testsBarChartLoadingLabel.text = NSLocalizedString("chart.loading", comment: "")
+        testsBarChartLoadingLabel.textAlignment = .center
+        addSubview(testsBarChartLoadingLabel)
+        testsBarChartLoadingLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.testsBarChartLoadingLabel = testsBarChartLoadingLabel
 
         let testsBarChart = BasicBarChart()
         addSubview(testsBarChart)
@@ -59,6 +75,10 @@ final class MainView: UIView {
             casesBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
             casesBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
 
+            casesBarChartLoadingLabel.centerYAnchor.constraint(equalTo: casesBarChart.centerYAnchor),
+            casesBarChartLoadingLabel.leadingAnchor.constraint(equalTo: casesBarChart.leadingAnchor, constant: 16),
+            casesBarChartLoadingLabel.trailingAnchor.constraint(equalTo: casesBarChart.trailingAnchor, constant: -16),
+
             testsTitleLabel.topAnchor.constraint(equalTo: casesBarChart.bottomAnchor, constant: 8),
             testsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             testsTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -67,7 +87,11 @@ final class MainView: UIView {
             testsBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
             testsBarChart.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             testsBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
-            testsBarChart.heightAnchor.constraint(equalTo: casesBarChart.heightAnchor)
+            testsBarChart.heightAnchor.constraint(equalTo: casesBarChart.heightAnchor),
+
+            testsBarChartLoadingLabel.centerYAnchor.constraint(equalTo: testsBarChart.centerYAnchor),
+            testsBarChartLoadingLabel.leadingAnchor.constraint(equalTo: testsBarChart.leadingAnchor, constant: 16),
+            testsBarChartLoadingLabel.trailingAnchor.constraint(equalTo: testsBarChart.trailingAnchor, constant: -16),
         ])
     }
 }

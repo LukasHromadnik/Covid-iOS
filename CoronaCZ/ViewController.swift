@@ -9,7 +9,9 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    private weak var casesBarChartLoadingLabel: UILabel!
     private weak var casesBarChart: BasicBarChart!
+    private weak var testsBarChartLoadingLabel: UILabel!
     private weak var testsBarChart: BasicBarChart!
 
     private var refreshBarButtonItem: UIBarButtonItem!
@@ -18,6 +20,8 @@ final class ViewController: UIViewController {
 
     override func loadView() {
         let view = MainView()
+        casesBarChartLoadingLabel = view.casesBarChartLoadingLabel
+        testsBarChartLoadingLabel = view.testsBarChartLoadingLabel
         casesBarChart = view.casesBarChart
         testsBarChart = view.testsBarChart
         self.view = view
@@ -29,6 +33,8 @@ final class ViewController: UIViewController {
         navigationItem.title = NSLocalizedString("title", comment: "")
         refreshBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshBarButtonTapped))
         navigationItem.rightBarButtonItem = refreshBarButtonItem
+
+        setState(hasData: false)
 
         setDarkAppIconIfPossible()
 
@@ -48,6 +54,13 @@ final class ViewController: UIViewController {
     }
 
     // MARK: - Private methods
+
+    private func setState(hasData: Bool) {
+        casesBarChartLoadingLabel.isHidden = hasData
+        casesBarChart.isHidden = hasData == false
+        testsBarChartLoadingLabel.isHidden = hasData
+        testsBarChart.isHidden = hasData == false
+    }
 
     private func refreshData() {
         let group = DispatchGroup()
@@ -73,6 +86,7 @@ final class ViewController: UIViewController {
         }
 
         group.notify(queue: .main) { [weak self] in
+            self?.setState(hasData: true)
             self?.navigationItem.rightBarButtonItem = self?.refreshBarButtonItem
         }
     }
