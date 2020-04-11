@@ -8,9 +8,9 @@
 
 import Foundation
 
-//"datum": "29.1.2020",
-//"testy-den": 5,
-//"testy-celkem": 33
+struct TestsContainer: Codable {
+    let data: [Test]
+}
 
 struct Test: CoronaEntry {
     let date: Date

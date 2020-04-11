@@ -28,10 +28,22 @@ final class ViewControllerView: UIView {
     private func setup() {
         backgroundColor = .systemBackground
 
+        let casesTitleLabel = UILabel()
+        casesTitleLabel.text = "Případy"
+        casesTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        addSubview(casesTitleLabel)
+        casesTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+
         let casesBarChart = BasicBarChart()
         addSubview(casesBarChart)
         casesBarChart.translatesAutoresizingMaskIntoConstraints = false
         self.casesBarChart = casesBarChart
+
+        let testsTitleLabel = UILabel()
+        testsTitleLabel.text = "Testy"
+        testsTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        addSubview(testsTitleLabel)
+        testsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let testsBarChart = BasicBarChart()
         addSubview(testsBarChart)
@@ -39,11 +51,19 @@ final class ViewControllerView: UIView {
         self.testsBarChart = testsBarChart
 
         NSLayoutConstraint.activate([
-            casesBarChart.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            casesTitleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            casesTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            casesTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+            casesBarChart.topAnchor.constraint(equalTo: casesTitleLabel.bottomAnchor),
             casesBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
             casesBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            testsBarChart.topAnchor.constraint(equalTo: casesBarChart.bottomAnchor, constant: 16),
+            testsTitleLabel.topAnchor.constraint(equalTo: casesBarChart.bottomAnchor, constant: 8),
+            testsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            testsTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
+            testsBarChart.topAnchor.constraint(equalTo: testsTitleLabel.bottomAnchor),
             testsBarChart.leadingAnchor.constraint(equalTo: leadingAnchor),
             testsBarChart.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             testsBarChart.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -106,7 +126,7 @@ final class ViewController: UIViewController {
         let task = URLSession.shared.dataTask(with: URL(string: path)!) { [weak self] data, response, error in
             print("⬇️ \(path)")
             if let error = error {
-                let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                let alert = UIAlertController(title: "Chyba", message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Zavřít", style: .cancel))
                 self?.present(alert, animated: true)
                 return
@@ -119,12 +139,6 @@ final class ViewController: UIViewController {
         }
         task.resume()
     }
-
-//    private func load<T>(_ resource: String, type: T.Type) -> T where T: Decodable {
-//        let resource = Bundle.main.url(forResource: resource, withExtension: "json")!
-//        let data = try! Data(contentsOf: resource)
-//        return try! JSONDecoder().decode(T.self, from: data)
-//    }
 
     private func show<T>(_ items: [T], in chart: BasicBarChart) where T: CoronaEntry {
         let totalAmountPerDay = items.map { $0.totalDay }.max() ?? 0
@@ -145,8 +159,4 @@ final class ViewController: UIViewController {
 
         chart.updateDataEntries(dataEntries: entries, animated: false)
     }
-}
-
-struct TestsContainer: Codable {
-    let data: [Test]
 }

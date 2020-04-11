@@ -59,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A34B9FBC2441B9DD00203F89 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A34B9FB92441AF6000203F89 /* Test.swift */,
+				A3F062602441A85A0040105D /* Case.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		D798EC9A22940495001276C0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,10 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				D7F485331F4AA79300348260 /* BarChart */,
+				A34B9FBC2441B9DD00203F89 /* Models */,
 				D7E538741F483B5D00D14995 /* AppDelegate.swift */,
 				D7E538761F483B5D00D14995 /* ViewController.swift */,
-				A34B9FB92441AF6000203F89 /* Test.swift */,
-				A3F062602441A85A0040105D /* Case.swift */,
 				D7E5387B1F483B5D00D14995 /* Assets.xcassets */,
 				D7E5387D1F483B5D00D14995 /* LaunchScreen.storyboard */,
 				D7E538801F483B5D00D14995 /* Info.plist */,

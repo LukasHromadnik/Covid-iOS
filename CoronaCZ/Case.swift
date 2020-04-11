@@ -7,9 +7,6 @@
 //
 
 import Foundation
-//"datum": "2020-01-29",
-//"pocetDen": 0,
-//"pocetCelkem": 0
 
 protocol CoronaEntry: Codable {
     var date: Date { get }
