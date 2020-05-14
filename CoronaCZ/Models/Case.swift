@@ -14,6 +14,10 @@ protocol CoronaEntry: Codable {
     var total: Int { get }
 }
 
+struct CasesContainer: Codable {
+    let data: [Case]
+}
+
 struct Case: CoronaEntry {
     let date: Date
     let totalDay: Int

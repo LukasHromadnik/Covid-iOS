@@ -106,10 +106,10 @@ final class ViewController: UIViewController {
 
         let casesPath = "https://onemocneni-aktualne.mzcr.cz/api/v1/covid-19/nakaza.min.json"
         group.enter()
-        fetch(path: casesPath, type: [Case].self) { [weak self] cases in
+        fetch(path: casesPath, type: CasesContainer.self) { [weak self] cases in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.show(cases, in: self.casesBarChart)
+                self.show(cases.data, in: self.casesBarChart)
                 group.leave()
             }
         }
