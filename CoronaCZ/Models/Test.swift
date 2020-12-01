@@ -21,8 +21,8 @@ struct Test: CoronaEntry {
 extension Test {
     enum CodingKeys: String, CodingKey {
         case date = "datum"
-        case totalDay = "testy-den"
-        case total = "testy-celkem"
+        case totalDay = "prirustkovy_pocet_testu"
+        case total = "kumulativni_pocet_testu"
     }
 
     init(from decoder: Decoder) throws {
