@@ -34,19 +34,23 @@ public final class CumulativeReportDataLoader: ObservableObject {
     }
     
     private func processItems(_ allItems: [CumulativeReportItem]) {
-        let prirustky = zip(allItems.dropFirst(), allItems)
+        // Don't run the processing on empty collection
+        guard !allItems.isEmpty else { return }
+
+        // Compute the difference between each day
+        let differenceIncrease = zip(allItems.dropFirst(), allItems)
             .map { $0.total - $1.total }
 
-        self.r = Array(0..<prirustky.count - 12)
+        // Compute the R number based on the estimate
+        // https://www.matfyz.cz/clanky/matematika-koronaviru-tajemstvi-cisla-r
+        // and take the last 60 days
+        self.r = Array(0..<differenceIncrease.count - 12)
             .map { i in
-                let first = prirustky[i ..< i + 7].reduce(0, +)
-                let second = prirustky[i + 5 ..< i + 12].reduce(0, +)
+                let first = differenceIncrease[i ..< i + 7].reduce(0, +)
+                let second = differenceIncrease[i + 5 ..< i + 12].reduce(0, +)
                 return Double(second) / Double(first)
             }
             .suffix(60)
-        
-        // Don't run the processing on empty collection
-        guard !allItems.isEmpty else { return }
         
         // Check if the current date is monday, if so then go back three weeks
         let weekShift = dateProvider.date().startOfWeek().addingTimeInterval(.days(1)) > Date() ? -3 : -2

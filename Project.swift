@@ -13,24 +13,19 @@ let core = Target(
     sources: "Features/CovidCore/**"
 )
 
-let bars = Target(
+let bars = Target.graph(
     name: "Bars",
-    platform: .iOS,
-    product: .framework,
-    bundleId: bundleIdentifier + ".bars",
-    infoPlist: .default,
-    sources: "Features/Bars/**",
-    dependencies: [.target(name: "CovidCore")]
+    bundleIdentifier: bundleIdentifier + ".bars"
 )
 
-let numberR = Target(
+let numberR = Target.graph(
     name: "NumberR",
-    platform: .iOS,
-    product: .framework,
-    bundleId: bundleIdentifier + ".numberr",
-    infoPlist: .default,
-    sources: "Features/NumberR/**",
-    dependencies: [.target(name: "CovidCore")]
+    bundleIdentifier: bundleIdentifier + ".numberr"
+)
+
+let dailyReport = Target.graph(
+    name: "DailyReport",
+    bundleIdentifier: bundleIdentifier + ".dailyReport"
 )
 
 let settingsDictionary = SettingsDictionary()
@@ -41,5 +36,5 @@ let project = Project.app(
     name: "Covid",
     bundleIdentifier: bundleIdentifier,
     settingsDictionary: settingsDictionary,
-    targets: [core, bars, numberR]
+    targets: [core, bars, numberR, dailyReport]
 )

@@ -31,14 +31,14 @@ struct DailyReportItemView: View {
     }
 }
 
-struct DailyReportView: View {
+public struct DailyReportView: View {
     @ObservedObject var dataLoader: DailyReportDataLoader
     
-    init(dataLoader: DailyReportDataLoader) {
+    public init(dataLoader: DailyReportDataLoader) {
         self.dataLoader = dataLoader
     }
 
-    var body: some View {
+    public var body: some View {
         switch dataLoader.dailyReportItems {
         case .loading:
             ProgressView()

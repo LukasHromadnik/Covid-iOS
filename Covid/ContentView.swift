@@ -9,6 +9,7 @@ import CovidCore
 import SwiftUI
 import Bars
 import NumberR
+import DailyReport
 
 struct ContentView: View {
     @ObservedObject var dataLoader = CumulativeReportDataLoader(
