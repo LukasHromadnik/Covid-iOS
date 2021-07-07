@@ -12,29 +12,26 @@ import NumberR
 import DailyReport
 
 struct ContentView: View {
-    @ObservedObject var dataLoader = CumulativeReportDataLoader(
-        dataFetcher: networkDataFetcher(url: DataSource.nakaza),
-        dateProvider: .live
-    )
+    @EnvironmentObject
+    private var dailyReportDataLoader: DailyReportDataLoader
+    
+    @EnvironmentObject
+    private var cumulativeReportDataLoader: CumulativeReportDataLoader
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
                     SummaryView(title: "Denní přehled") {
-                        DailyReportView(
-                            dataLoader: DailyReportDataLoader(
-                                dataFetcher: networkDataFetcher(url: DataSource.basicReport)
-                            )
-                        )
+                        DailyReportView(dataLoader: dailyReportDataLoader)
                     }
                     
                     SummaryView(title: "Srovnání denních přírůstků covidu s minulým a předminulým týdnem v ČR") {
-                        BarsView(dataLoader: dataLoader)
+                        BarsView(dataLoader: cumulativeReportDataLoader)
                     }
                     
                     SummaryView(title: "Vývoj čísla R") {
-                        RView(dataLoader: dataLoader)
+                        RView(dataLoader: cumulativeReportDataLoader)
                             .frame(height: 200)
                     }
                 }
@@ -51,6 +48,6 @@ struct ContentView: View {
     }
     
     private func refresh() {
-        dataLoader.refresh()
+        cumulativeReportDataLoader.refresh()
     }
 }

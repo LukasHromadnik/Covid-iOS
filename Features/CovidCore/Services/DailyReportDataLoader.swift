@@ -1,5 +1,5 @@
 //
-//  BasicReportDataLoader.swift
+//  DailyReportDataLoader.swift
 //  Covid
 //
 //  Created by Lukáš Hromadník on 27.04.2021.
@@ -31,13 +31,14 @@ public final class DailyReportDataLoader: ObservableObject {
         refresh()
     }
     
-    public func refresh() {
+    public func refresh(completion: (() -> Void)? = nil) {
         dailyReportItems = .loading
         
         dataFetcher.load { [weak self] in
             guard let report = $0?.first else { return }
             self?.processReport(report)
             self?.saveReport(report)
+            completion?()
         }
     }
     

@@ -26,10 +26,11 @@ public final class CumulativeReportDataLoader: ObservableObject {
         refresh()
     }
     
-    public func refresh() {
+    public func refresh(completion: (() -> Void)? = nil) {
         dataFetcher.load { [weak self] in
             guard let items = $0 else { return }
             self?.processItems(items)
+            completion?()
         }
     }
     

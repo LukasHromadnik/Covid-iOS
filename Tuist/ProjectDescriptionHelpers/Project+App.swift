@@ -16,7 +16,10 @@ public extension Project {
                 "CFBundleShortVersionString": "1.0",
                 "CFBundleVersion": "1",
                 "UIMainStoryboardFile": "",
-                "UILaunchStoryboardName": "LaunchScreen"
+                "UILaunchStoryboardName": "LaunchScreen",
+                "BGTaskSchedulerPermittedIdentifiers": [
+                    "cz.ackee.enterprise.covid.refreshData"
+                ]
             ]),
             sources: ["\(name)/**"],
             resources: ["\(name)/Resources/**"],
