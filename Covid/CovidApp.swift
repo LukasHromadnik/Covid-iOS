@@ -29,11 +29,15 @@ struct CovidApp: App {
         dateProvider: .live
     )
     
+    @ObservedObject
+    private var lastUpdate = LastUpdate()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(dailyReportDataLoader)
                 .environmentObject(cumulativeReportDataLoader)
+                .environmentObject(lastUpdate)
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active && set {
@@ -94,6 +98,7 @@ struct CovidApp: App {
         let group = DispatchGroup()
         group.notify(queue: .main) {
             task.setTaskCompleted(success: true)
+            lastUpdate.date = Date()
         }
         
         group.enter()

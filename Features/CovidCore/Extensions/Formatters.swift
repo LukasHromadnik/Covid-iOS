@@ -14,6 +14,12 @@ public enum Formatters {
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter
         }()
+        
+        public static let dateTime: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.setLocalizedDateFormatFromTemplate("ddMMyyyyjjmm")
+            return formatter
+        }()
     }
     
     public enum Number {

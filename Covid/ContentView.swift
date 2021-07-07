@@ -18,6 +18,9 @@ struct ContentView: View {
     @EnvironmentObject
     private var cumulativeReportDataLoader: CumulativeReportDataLoader
     
+    @EnvironmentObject
+    private var lastUpdate: LastUpdate
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -34,6 +37,16 @@ struct ContentView: View {
                         RView(dataLoader: cumulativeReportDataLoader)
                             .frame(height: 200)
                     }
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Text(lastUpdateText)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                     
+                        Spacer()
+                    }
                 }
                 .padding()
                 .navigationTitle("Covid přehledy")
@@ -47,7 +60,19 @@ struct ContentView: View {
         }
     }
     
+    private var lastUpdateText: String {
+        if let date = lastUpdate.date {
+            let formatted = Formatters.Date.dateTime.string(from: date)
+            return "Naposledy aktualizováno \(formatted)"
+        } else {
+            return "Nikdy neaktualizováno"
+        }
+    }
+    
     private func refresh() {
+        dailyReportDataLoader.refresh()
         cumulativeReportDataLoader.refresh()
+        
+        lastUpdate.date = Date()
     }
 }
