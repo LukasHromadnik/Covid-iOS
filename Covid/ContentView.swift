@@ -51,10 +51,11 @@ struct ContentView: View {
                 .padding()
                 .navigationTitle("Covid přehledy")
                 .navigationBarItems(
-                    trailing: Button(
-                        action: refresh,
-                        label: { Image(systemName: "arrow.clockwise") }
-                    )
+                    trailing: Button {
+                        Task { await refresh() }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
                 )
             }
         }
@@ -69,9 +70,9 @@ struct ContentView: View {
         }
     }
     
-    private func refresh() {
-        dailyReportDataLoader.refresh()
-        cumulativeReportDataLoader.refresh()
+    private func refresh() async {
+        await dailyReportDataLoader.refresh()
+        await cumulativeReportDataLoader.refresh()
         
         lastUpdate.date = Date()
     }

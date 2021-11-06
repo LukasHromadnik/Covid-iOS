@@ -108,9 +108,15 @@ struct CovidApp: App {
         }
         
         group.enter()
-        dailyReportDataLoader.refresh { group.leave() }
+        Task {
+            await dailyReportDataLoader.refresh()
+            group.leave()
+        }
         
         group.enter()
-        cumulativeReportDataLoader.refresh { group.leave() }
+        Task {
+            await cumulativeReportDataLoader.refresh()
+            group.leave()
+        }
     }
 }

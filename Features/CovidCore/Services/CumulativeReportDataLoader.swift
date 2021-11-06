@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 
+@MainActor
 public final class CumulativeReportDataLoader: ObservableObject {
     @Published public var items: [Int] = []
     @Published public var sizes: [CGFloat] = []
@@ -23,15 +24,13 @@ public final class CumulativeReportDataLoader: ObservableObject {
         self.dataFetcher = dataFetcher
         self.dateProvider = dateProvider
         
-        refresh()
+        Task { await refresh() }
     }
     
-    public func refresh(completion: (() -> Void)? = nil) {
-        dataFetcher.load { [weak self] in
-            guard let items = $0 else { return }
-            self?.processItems(items)
-            completion?()
-        }
+    public func refresh() async {
+        guard let items = await dataFetcher.load() else { return }
+        
+        return processItems(items)
     }
     
     private func processItems(_ allItems: [CumulativeReportItem]) {

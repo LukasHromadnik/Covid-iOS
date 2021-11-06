@@ -20,6 +20,7 @@ public struct DailyReportItem: Hashable {
     public let color: Color
 }
 
+@MainActor
 public final class DailyReportDataLoader: ObservableObject {
     @Published public var dailyReportItems: DataState<[DailyReportItem]> = .value([])
     
@@ -28,36 +29,32 @@ public final class DailyReportDataLoader: ObservableObject {
     public init(dataFetcher: DataFetcher<BasicReport>) {
         self.dataFetcher = dataFetcher
         
-        refresh()
+        Task { await refresh() }
     }
     
-    public func refresh(completion: (() -> Void)? = nil) {
+    public func refresh(completion: (() -> Void)? = nil) async {
         dailyReportItems = .loading
         
-        dataFetcher.load { [weak self] in
-            guard let report = $0?.first else { return }
-            self?.processReport(report)
-            self?.saveReport(report)
-            completion?()
-        }
+        guard let report = await dataFetcher.load()?.first else { return }
+
+        await processReport(report)
+        saveReport(report)
     }
     
-    private func processReport(_ report: BasicReport) {
-        localDataFetcher(resource: report.yesterdayDate)
-            .load { [weak self] (response: [BasicReport]?) in
-                if let oldReport = response?.first {
-                    self?.updateDailyReport(old: oldReport, new: report)
-                } else {
-                    userDefaultsDataFetcher(key: report.yesterdayDate)
-                        .load { [weak self] (response: [BasicReport]?) in
-                            guard let oldReport = response?.first else {
-                                self?.dailyReportItems = .error
-                                return
-                            }
-                            self?.updateDailyReport(old: oldReport, new: report)
-                        }
-                }
+    private func processReport(_ report: BasicReport) async {
+        let response: [BasicReport]? = await localDataFetcher(resource: report.yesterdayDate).load()
+        
+        if let oldReport = response?.first {
+            updateDailyReport(old: oldReport, new: report)
+        } else {
+            guard let storedReport: BasicReport = await userDefaultsDataFetcher(key: report.yesterdayDate).load()?.first
+            else {
+                dailyReportItems = .error
+                return
             }
+            
+            updateDailyReport(old: storedReport, new: report)
+        }
     }
     
     private func saveReport(_ report: BasicReport) {
