@@ -16,7 +16,6 @@ enum BackgroundTasksIdentifiers {
 @main
 struct CovidApp: App {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var set = true
     
     @ObservedObject
     private var dailyReportDataLoader = DailyReportDataLoader(
@@ -32,6 +31,10 @@ struct CovidApp: App {
     @ObservedObject
     private var lastUpdate = LastUpdate()
     
+    init() {
+        registerTasks()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -40,27 +43,29 @@ struct CovidApp: App {
                 .environmentObject(lastUpdate)
         }
         .onChange(of: scenePhase) { phase in
-            if phase == .active && set {
-                DispatchQueue.main.async {
-                    set = true
-                }
-                
-                registerTasks()
-            } else if phase == .background {
+            switch phase {
+            case .active:
+                BGTaskScheduler.shared.cancelAllTaskRequests()
+            
+            case .background:
                 scheduleAppRefresh()
+            
+            case .inactive:
+                break
+            
+            @unknown default:
+                break
             }
         }
     }
     
     private func registerTasks() {
-        BGTaskScheduler.shared.cancelAllTaskRequests()
         BGTaskScheduler.shared.register(
             forTaskWithIdentifier: BackgroundTasksIdentifiers.refreshData,
-            using: nil,
-            launchHandler: { task in
-                self.handleAppRefresh(task: task as! BGAppRefreshTask)
-            }
-        )
+            using: nil
+        ) { task in
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        }
     }
     
     private func scheduleAppRefresh() {
@@ -78,17 +83,18 @@ struct CovidApp: App {
         let midnightSeconds = (Date().timeIntervalSince1970 / 86400).rounded(.towardZero) * 86400
         let todaySeconds = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: 86400)
         
+        // Since we are +2 hours, all times must be -2 hours aligned
         // 8:15 AM
-        if todaySeconds < 29700 {
+        if todaySeconds < 22500 {
             return Date(timeIntervalSince1970: midnightSeconds).addingTimeInterval(29700)
         }
         // 9:00 AM
-        else if todaySeconds < 32400 {
+        else if todaySeconds < 25200 {
             return Date(timeIntervalSinceNow: 900) // 15 minutes
         }
         // Set the next update to 8:30 AM next day
         else {
-            return Date(timeIntervalSince1970: midnightSeconds).addingTimeInterval(117000)
+            return Date(timeIntervalSince1970: midnightSeconds).addingTimeInterval(108900)
         }
     }
     
