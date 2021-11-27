@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CodableCSV
 
 public struct DataFetcher<Value: Codable> {
     let load: () async -> [Value]?
@@ -19,8 +20,8 @@ public func networkDataFetcher<Value: Codable>(
         let url = URL(string: url)!
         
         guard let data = try? await URLSession.shared.data(from: url).0 else { return nil }
-        let decoded = try? JSONDecoder().decode(Response<[Value]>.self, from: data)
-        return decoded?.data
+        let decoder = CSVDecoder { $0.headerStrategy = .firstLine }
+        return try? decoder.decode([Value].self, from: data)
     }
 }
 
