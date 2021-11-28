@@ -10,6 +10,7 @@ import SwiftUI
 import Bars
 import NumberR
 import DailyReport
+import Incidence
 
 struct ContentView: View {
     @EnvironmentObject
@@ -36,6 +37,10 @@ struct ContentView: View {
                     SummaryView(title: "Vývoj čísla R") {
                         RView(dataLoader: cumulativeReportDataLoader)
                             .frame(height: 200)
+                    }
+
+                    SummaryView(title: "7-denní incidence") {
+                        IncidenceView()
                     }
                     
                     HStack {

@@ -4,7 +4,8 @@ public extension Target {
     static func feature(
         name: String,
         bundleIdentifier: String,
-        deploymentTarget: DeploymentTarget
+        deploymentTarget: DeploymentTarget,
+        hasResources: Bool = false
     ) -> Self {
         Target(
             name: name,
@@ -14,6 +15,7 @@ public extension Target {
             deploymentTarget: deploymentTarget,
             infoPlist: .default,
             sources: "Features/\(name)/**",
+            resources: hasResources ? "Features/\(name)/Resources/**" : nil,
             dependencies: [.target(name: "CovidCore")]
         )
     }

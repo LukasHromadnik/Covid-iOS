@@ -36,6 +36,13 @@ let dailyReport = Target.feature(
     deploymentTarget: deploymentTarget
 )
 
+let incidence = Target.feature(
+    name: "Incidence",
+    bundleIdentifier: bundleIdentifier + ".incidence",
+    deploymentTarget: deploymentTarget,
+    hasResources: true
+)
+
 let settingsDictionary = SettingsDictionary()
     .customCodeSigning()
     .otherSwiftFlags("-Xfrontend -warn-long-function-bodies=300 -Xfrontend -warn-long-expression-type-checking=300")
@@ -60,7 +67,7 @@ let app = Target(
     ]),
     sources: ["Covid/**"],
     resources: ["Covid/Resources/**"],
-    dependencies: [core, bars, numberR, dailyReport].map(\.name).map(TargetDependency.target)
+    dependencies: [core, bars, numberR, dailyReport, incidence].map(\.name).map(TargetDependency.target)
 )
 
 let project = Project(
@@ -72,5 +79,5 @@ let project = Project(
         )
     ],
     settings: Settings(base: settingsDictionary),
-    targets: [app, core, bars, numberR, dailyReport]
+    targets: [app, core, bars, numberR, dailyReport, incidence]
 )
