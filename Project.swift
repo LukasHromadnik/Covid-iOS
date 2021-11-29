@@ -12,10 +12,7 @@ let core = Target(
     bundleId: bundleIdentifier + ".core",
     deploymentTarget: deploymentTarget,
     infoPlist: .default,
-    sources: "Features/CovidCore/**",
-    dependencies: [
-        .package(product: "CodableCSV")
-    ]
+    sources: "Features/CovidCore/**"
 )
 
 let bars = Target.feature(
@@ -72,12 +69,6 @@ let app = Target(
 
 let project = Project(
     name: "Covid",
-    packages: [
-        .remote(
-            url: "https://github.com/dehesa/CodableCSV",
-            requirement: .upToNextMajor(from: Version(0, 6, 7))
-        )
-    ],
     settings: Settings(base: settingsDictionary),
     targets: [app, core, bars, numberR, dailyReport, incidence]
 )
