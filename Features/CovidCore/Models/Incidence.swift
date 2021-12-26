@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Incidence: Codable {
+public struct Incidence: Codable {
     enum CodingKeys: String, CodingKey {
         case region = "kraj_nuts_kod"
         case incidence = "incidence_7_100000"
     }
 
-    let region: String?
-    let incidence: Double?
+    public let region: String?
+    public let incidence: Double?
 }

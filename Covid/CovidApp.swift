@@ -21,11 +21,16 @@ struct CovidApp: App {
     private var dailyReportDataLoader = DailyReportDataLoader(
         dataFetcher: networkDataFetcher(url: DataSource.basicReport)
     )
-    
+
     @ObservedObject
     private var cumulativeReportDataLoader = CumulativeReportDataLoader(
         dataFetcher: networkDataFetcher(url: DataSource.nakaza),
         dateProvider: .live
+    )
+    
+    @ObservedObject
+    private var incidenceDataLoader = IncidenceDataLoader(
+        dataFetcher: networkDataFetcher(url: DataSource.incidence)
     )
     
     @ObservedObject
@@ -40,6 +45,7 @@ struct CovidApp: App {
             ContentView()
                 .environmentObject(dailyReportDataLoader)
                 .environmentObject(cumulativeReportDataLoader)
+                .environmentObject(incidenceDataLoader)
                 .environmentObject(lastUpdate)
         }
         .onChange(of: scenePhase) { phase in

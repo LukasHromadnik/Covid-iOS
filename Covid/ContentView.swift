@@ -21,6 +21,9 @@ struct ContentView: View {
     private var cumulativeReportDataLoader: CumulativeReportDataLoader
     
     @EnvironmentObject
+    private var incidenceDataLoader: IncidenceDataLoader
+    
+    @EnvironmentObject
     private var lastUpdate: LastUpdate
     
     var body: some View {
@@ -41,7 +44,7 @@ struct ContentView: View {
                     }
 
                     SummaryView(title: "7-denní incidence") {
-                        IncidenceView()
+                        IncidenceView(dataLoader: incidenceDataLoader)
                     }
                         
                     Text(lastUpdateText)
