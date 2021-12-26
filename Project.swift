@@ -12,7 +12,10 @@ let core = Target(
     bundleId: bundleIdentifier + ".core",
     deploymentTarget: deploymentTarget,
     infoPlist: .default,
-    sources: "Features/CovidCore/**"
+    sources: "Features/CovidCore/**",
+    dependencies: [
+        .package(product: "Introspect")
+    ]
 )
 
 let bars = Target.feature(
@@ -69,6 +72,12 @@ let app = Target(
 
 let project = Project(
     name: "Covid",
+    packages: [
+        Package.remote(
+            url: "https://github.com/siteline/SwiftUI-Introspect.git",
+            requirement: .upToNextMajor(from: Version(0, 1, 3))
+        )
+    ],
     settings: Settings(base: settingsDictionary),
     targets: [app, core, bars, numberR, dailyReport, incidence]
 )

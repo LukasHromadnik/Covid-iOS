@@ -35,19 +35,19 @@ public final class DailyReportDataLoader: ObservableObject {
     public func refresh(completion: (() -> Void)? = nil) async {
         dailyReportItems = .loading
         
-        guard let report = await dataFetcher.load()?.first else { return }
+        guard let report = await dataFetcher.load()?.data.first else { return }
 
         await processReport(report)
         saveReport(report)
     }
     
     private func processReport(_ report: BasicReport) async {
-        let response: [BasicReport]? = await localDataFetcher(resource: report.yesterdayDate).load()
+        let response: [BasicReport]? = await localDataFetcher(resource: report.yesterdayDate).load()?.data
         
         if let oldReport = response?.first {
             updateDailyReport(old: oldReport, new: report)
         } else {
-            guard let storedReport: BasicReport = await userDefaultsDataFetcher(key: report.yesterdayDate).load()?.first
+            guard let storedReport: BasicReport = await userDefaultsDataFetcher(key: report.yesterdayDate).load()?.data.first
             else {
                 dailyReportItems = .error
                 return
@@ -58,7 +58,7 @@ public final class DailyReportDataLoader: ObservableObject {
     }
     
     private func saveReport(_ report: BasicReport) {
-        let response = Response(data: [report])
+        let response = Response.data([report])
         let data = try! JSONEncoder().encode(response)
         UserDefaults.standard.set(data, forKey: report.date)
     }

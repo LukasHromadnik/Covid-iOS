@@ -100,19 +100,19 @@ struct CovidApp: App {
     
     private func handleAppRefresh(task: BGAppRefreshTask) {
         scheduleAppRefresh()
-        
+
         let group = DispatchGroup()
         group.notify(queue: .main) {
             task.setTaskCompleted(success: true)
             lastUpdate.date = Date()
         }
-        
+
         group.enter()
         Task {
             await dailyReportDataLoader.refresh()
             group.leave()
         }
-        
+
         group.enter()
         Task {
             await cumulativeReportDataLoader.refresh()

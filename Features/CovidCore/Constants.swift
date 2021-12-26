@@ -12,6 +12,7 @@ public enum Constants {
 }
 
 public enum DataSource {
-    public static let nakaza = "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/nakazeni-vyleceni-umrti-testy.min.json"
+    public static let nakaza = "https://onemocneni-aktualne.mzcr.cz/api/v3/nakazeni-vyleceni-umrti-testy?apiToken=\(Constants.apiToken)"
     public static let basicReport = "https://onemocneni-aktualne.mzcr.cz/api/v3/zakladni-prehled?apiToken=\(Constants.apiToken)"
+    public static let incidence = "https://onemocneni-aktualne.mzcr.cz/api/v3/incidence-7-14-cr?apiToken=\(Constants.apiToken)"
 }

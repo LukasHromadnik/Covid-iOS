@@ -28,8 +28,29 @@ public final class CumulativeReportDataLoader: ObservableObject {
     }
     
     public func refresh() async {
-        guard let items = await dataFetcher.load() else { return }
+        // The response uses paging.
+        // At first we need to download the initial request
+        // where the number of all items available is provided.
+        guard let response = await dataFetcher.load() else { return }
         
+        let totalItems = Double(response.totalItems)
+        let numberOfItems = Double(response.data.count)
+        
+        // Then we need to compute the number of pages
+        let numberOfPages = Int(ceil(totalItems / numberOfItems))
+        
+        // Download the penultimate one and the last one.
+        // Once new page is created we would download only the one item
+        // on the last page.
+        async let penultimatePage = dataFetcher.load([URLQueryItem(name: "page", value: String(numberOfPages - 1))])
+        async let lastPage = dataFetcher.load([URLQueryItem(name: "page", value: String(numberOfPages))])
+        
+        // Run the download asynchronously and wait for the results
+        let pages = await [penultimatePage, lastPage]
+        
+        // Combine the downloaded items
+        let items = pages.compactMap { $0?.data }.flatMap { $0 }
+
         return processItems(items)
     }
     

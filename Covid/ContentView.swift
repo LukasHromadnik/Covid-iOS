@@ -11,6 +11,7 @@ import Bars
 import NumberR
 import DailyReport
 import Incidence
+import Introspect
 
 struct ContentView: View {
     @EnvironmentObject
@@ -33,7 +34,7 @@ struct ContentView: View {
                     SummaryView(title: "Srovnání denních přírůstků covidu s minulým a předminulým týdnem v ČR") {
                         BarsView(dataLoader: cumulativeReportDataLoader)
                     }
-                    
+
                     SummaryView(title: "Vývoj čísla R") {
                         RView(dataLoader: cumulativeReportDataLoader)
                             .frame(height: 200)
@@ -42,26 +43,30 @@ struct ContentView: View {
                     SummaryView(title: "7-denní incidence") {
                         IncidenceView()
                     }
-                    
-                    HStack {
-                        Spacer()
                         
-                        Text(lastUpdateText)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                     
-                        Spacer()
-                    }
+                    Text(lastUpdateText)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity)
                 }
                 .padding()
                 .navigationTitle("Covid přehledy")
-                .navigationBarItems(
-                    trailing: Button {
-                        Task { await refresh() }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                )
+//                .navigationBarItems(
+//                    trailing: Button {
+//                        Task { await refresh() }
+//                    } label: {
+//                        Image(systemName: "arrow.clockwise")
+//                    }
+//                )
+            }
+            .introspectScrollView {
+                let refreshControl = RefreshControl {
+                    await dailyReportDataLoader.refresh()
+                    await cumulativeReportDataLoader.refresh()
+                    
+                    lastUpdate.date = Date()
+                }
+                $0.refreshControl = refreshControl
             }
         }
     }
@@ -74,11 +79,28 @@ struct ContentView: View {
             return "Nikdy neaktualizováno"
         }
     }
+}
+
+final class RefreshControl: UIRefreshControl {
+    private let refreshAction: () async -> Void
     
-    private func refresh() async {
-        await dailyReportDataLoader.refresh()
-        await cumulativeReportDataLoader.refresh()
+    init(refresh refreshAction: @escaping () async -> Void) {
+        self.refreshAction = refreshAction
         
-        lastUpdate.date = Date()
+        super.init(frame: .zero)
+        
+        addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc
+    private func refresh() {
+        Task {
+            await refreshAction()
+        }
     }
 }
