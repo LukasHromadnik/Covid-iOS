@@ -36,31 +36,28 @@ struct ContentView: View {
                     
                     SummaryView(title: "Srovnání denních přírůstků covidu s minulým a předminulým týdnem v ČR") {
                         BarsView(dataLoader: cumulativeReportDataLoader)
+                            .padding(.horizontal)
                     }
 
                     SummaryView(title: "Vývoj čísla R") {
                         RView(dataLoader: cumulativeReportDataLoader)
                             .frame(height: 200)
+                            .padding(.horizontal)
                     }
+
 
                     SummaryView(title: "7-denní incidence") {
                         IncidenceView(dataLoader: incidenceDataLoader)
+                            .padding(.horizontal)
                     }
                         
                     Text(lastUpdateText)
                         .font(.caption)
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)
+                        .padding(.horizontal)
                 }
-                .padding()
                 .navigationTitle("Covid přehledy")
-//                .navigationBarItems(
-//                    trailing: Button {
-//                        Task { await refresh() }
-//                    } label: {
-//                        Image(systemName: "arrow.clockwise")
-//                    }
-//                )
             }
             .introspectScrollView {
                 let refreshControl = RefreshControl {

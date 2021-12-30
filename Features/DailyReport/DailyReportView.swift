@@ -59,6 +59,7 @@ public struct DailyReportView: View {
                         )
                     }
                 }
+                .padding(.horizontal)
             }
         }
     }

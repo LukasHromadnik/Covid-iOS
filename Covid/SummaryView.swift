@@ -15,6 +15,7 @@ struct SummaryView<Content: View>: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .font(.headline)
+                .padding(.horizontal)
             
             content()
         }
