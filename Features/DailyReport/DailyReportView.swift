@@ -42,11 +42,13 @@ public struct DailyReportView: View {
         switch dataLoader.dailyReportItems {
         case .loading:
             ProgressView()
+                .padding(.horizontal)
         case .error:
             Label(
                 title: { Text("Nepodařilo se načíst data") },
                 icon: { Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.yellow) }
             )
+                .padding(.horizontal)
         case let .value(items):
             ScrollView(.horizontal) {
                 HStack(alignment: .top, spacing: 16) {
