@@ -57,6 +57,7 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal)
                 }
+                .padding(.top, 8)
                 .navigationTitle("Covid přehledy")
             }
             .introspectScrollView {

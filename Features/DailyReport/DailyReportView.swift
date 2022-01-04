@@ -48,9 +48,9 @@ public struct DailyReportView: View {
                 title: { Text("Nepodařilo se načíst data") },
                 icon: { Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.yellow) }
             )
-                .padding(.horizontal)
+            .padding(.horizontal)
         case let .value(items):
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 16) {
                     ForEach(items, id: \.self) { item in
                         DailyReportItemView(
